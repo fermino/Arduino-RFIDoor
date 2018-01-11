@@ -97,8 +97,10 @@
 			#define KEYPAD_PRESS_TIME	20
 
 		/**
-		 * Beep times :)
+		 * (Beep) times :)
 		 */
+
+			#define DELAY_AFTER_MODKEY		500
 
 			#define BUZZER_TIME_READYFORKEY		50
 			#define BUZZER_TIMES_READYFORKEY	2
@@ -445,6 +447,8 @@
 						while(!readPICC())
 							;
 
+						delay(DELAY_AFTER_MODKEY);
+
 						// Add the key as master
 						DEBUG_SERIAL_PRINT("\tAdding MASTER tag to RFID KeyStore...");
 						RFIDKeyStore.addKey(UID, &master_key_data);
@@ -469,6 +473,8 @@
 						DEBUG_SERIAL_PRINT("\tWaiting for MASTER KeyCode");
 						while(!readKeyCode())
 							;
+
+						delay(DELAY_AFTER_MODKEY);
 
 						// Add the key as master
 						DEBUG_SERIAL_PRINT("\tAdding MASTER KeyCode to KeyCode KeyStore...");
@@ -560,6 +566,8 @@
 						DEBUG_SERIAL_PRINT("\tWaiting for a different tag");
 						while(!readPICC() || keyIsEqual(master_uid, UID, RFID_KEY_SIZE))
 							;
+
+						delay(DELAY_AFTER_MODKEY);
 
 						// If the key is not stored in the memory
 						if(!RFIDKeyStore.keyIsValid(UID))
@@ -664,14 +672,11 @@
 								// Beep :)
 								beep(BUZZER_TIME_WRONGKEY, BUZZER_TIMES_WRONGKEY * 2);
 							}
-							DEBUG_SERIAL_PRINTA("\t\tKeyCode: 0x", KeyCode, KEYCODE_KEY_SIZE, HEX);
-
 						}
 
 						DEBUG_SERIAL_PRINTA("\t\tKeyCode: 0x", KeyCode, KEYCODE_KEY_SIZE, HEX);
 
-						//while(!readKeyCode() || keyIsEqual(master_keycode, KeyCode, KEYCODE_KEY_SIZE))
-						//	;
+						delay(DELAY_AFTER_MODKEY);
 
 						// If the key is not stored in the memory
 						if(!KeyCodeKeyStore.keyIsValid(KeyCode))
