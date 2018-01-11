@@ -1,14 +1,39 @@
+	/**
+	 * General config
+	 * 	Here you can enable or disable features
+	 */
+	
+		#define ENABLE_RFID
+		#define ENABLE_KEYPAD
+
+		// Comment out to enable
+		// #define DEBUG_ENABLED
+
+	/**
+	 * Some macros
+	 */
+		#ifdef ENABLE_RFID
+			#define _RFID(code)	code
+		#else
+			#define _RFID(code)
+		#endif
+
+		#ifdef ENABLE_KEYPAD
+			#define _KEYPAD(code)	code
+		#else
+			#define _KEYPAD(code)
+		#endif
+
+	// Including the required librares
+
+	#include <DebugUtils.h>
+
 	#include <KeyStore.h>
 
 	#include <SPI.h>
 	#include <MFRC522.h>
 
 	#include <OneWireKeys.h>
-
-	// Comment out to enable
-	//#define DEBUG_ENABLED
-
-	#include <DebugUtils.h>
 
 	/**
 	 * Pinout
@@ -34,6 +59,12 @@
 
 			#define RESETP_LOW	10
 			#define RESETP_HIGH	1013
+
+		/**
+		 * RFID
+		 */
+		
+			#define PCD_GAIN MFRC522::RxGain_max // RxGain_48dB
 
 		/**
 		 * Keypad
@@ -84,24 +115,21 @@
 			#define RELAY_TIME_MAX	10000	// 10 seconds
 
 	/**
-	 * RFID keys will use: 
+	 * KeyStore will be using: 
 	 * 		KEYS * (KEY_SIZE + sizeof(KeyData))
+	 *
 	 *    = 28 * (10 + 1)
 	 *    = 308 EEPROM bytes
+	 *    
+	 *    = 28  * (6 + 1)
+	 *    = 196 EEPROM bytes
+	 *
+	 * 	308 + 196 = 504 bytes (fits into ATtiny85)
 	 */
 
 		#define RFID_KEYS		28
 		#define RFID_KEY_SIZE	10
 
-		#define PCD_GAIN MFRC522::RxGain_max // RxGain_48dB
-
-	/**
-	 * Keypad keys will use: 
-	 * 		KEYS * (KEY_SIZE + sizeof(KeyData))
-	 *    = 28  * (6 + 1)
-	 *    = 196 EEPROM bytes
-	 */
-	
 		#define KEYCODE_KEYS		28
 		#define KEYCODE_KEY_SIZE	6
 
