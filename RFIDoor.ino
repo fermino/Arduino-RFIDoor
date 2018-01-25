@@ -60,8 +60,8 @@
 			
 			#define RESETP_TIME	20000
 
-			#define RESETP_LOW	10
-			#define RESETP_HIGH	1013
+			#define RESETP_LOW	20
+			#define RESETP_HIGH	1003
 
 		/**
 		 * RFID
